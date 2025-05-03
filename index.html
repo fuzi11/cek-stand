@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CEK STAND</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        h1 {
+            color: #d4af37;
+            text-shadow: 2px 2px 4px #000;
+            font-size: 2.5em;
+        }
+        
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .card-display {
+            width: 300px;
+            height: 450px;
+            background-color: #2a2a2a;
+            border-radius: 15px;
+            border: 3px solid #d4af37;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card-display:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
+        }
+        
+        .card-back {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #d4af37 25%, #1a1a1a 25%, #1a1a1a 50%, #d4af37 50%, #d4af37 75%, #1a1a1a 75%);
+            background-size: 20px 20px;
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2;
+        }
+        
+        .question-mark {
+            font-size: 120px;
+            color: #d4af37;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+        }
+        
+        .card-content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 1;
+        }
+        
+        .card-image {
+            width: 200px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border: 2px solid #d4af37;
+        }
+        
+        .card-name {
+            font-size: 1.8em;
+            color: #d4af37;
+            margin: 5px 0;
+            text-shadow: 1px 1px 3px #000;
+        }
+        
+        .stand-name {
+            font-size: 1.5em;
+            color: #ff5555;
+            margin: 5px 0;
+            text-shadow: 1px 1px 3px #000;
+        }
+        
+        .ability {
+            font-size: 1.1em;
+            margin: 10px 0;
+            padding: 0 10px;
+        }
+        
+        .revealed .card-back {
+            display: none;
+        }
+        
+        .revealed .card-content {
+            opacity: 1;
+        }
+        
+        button {
+            background-color: #d4af37;
+            color: #1a1a1a;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1.2em;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+        
+        button:hover {
+            background-color: #ff5555;
+            color: #fff;
+            transform: scale(1.05);
+        }
+        
+        .description {
+            background-color: #2a2a2a;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: left;
+            border-left: 4px solid #d4af37;
+        }
+        
+        footer {
+            margin-top: 40px;
+            color: #777;
+            font-size: 0.9em;
+        }
+        
+        @media (max-width: 600px) {
+            .card-display {
+                width: 250px;
+                height: 400px;
+            }
+            
+            .card-image {
+                width: 180px;
+                height: 270px;
+            }
+            
+            .question-mark {
+                font-size: 80px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>CEK STAND</h1>
+        <p>Temukan kekuatan Stand yang terkait dengan kartu Tarot Arcana Mayor!</p>
+        
+        <div class="card-display" id="cardDisplay">
+            <div class="card-back">
+                <div class="question-mark">?</div>
+            </div>
+            <div class="card-content" id="cardContent">
+                <img id="cardImage" class="card-image" src="" alt="Kartu Tarot">
+                <div class="card-name" id="cardName"></div>
+                <div class="stand-name" id="standName"></div>
+                <div class="ability" id="ability"></div>
+            </div>
+        </div>
+        
+        <button id="drawButton">DAPATKAN STAND</button>
+        
+        <div class="description">
+            <h3></h3>whehehehehee
+            <p>whehehehehee</p>
+        </div>
+    </div>
+    
+    <footer>
+        © ciwiwiw
+    </footer>
+    
+    <script>
+        const tarotCards = [
+            {
+                name: "The Fool",
+                image: "https://i.imgur.com/eQcJcsO.png",
+                stand: "The Fool",
+                ability: "Memanipulasi pasir dan partikel kecil untuk membentuk berbagai bentuk dan struktur."
+            },
+            {
+                name: "The Magician",
+                image: "https://i.imgur.com/KE34YB9.png",
+                stand: "Magician's Red",
+                ability: "Mengendalikan api dengan presisi tinggi, menciptakan semburan api, burung api, dan tali api."
+            },
+            {
+                name: "The High Priestess",
+                image: "https://i.imgur.com/bJ2cmDy.png",
+                stand: "High Priestess",
+                ability: "Berubah menjadi dan memanipulasi mineral, terutama gigi, bisa menyatu dengan benda mineral di sekitarnya."
+            },
+            {
+                name: "The Empress",
+                image: "https://i.imgur.com/HlAEOiv.png",
+                stand: "The Empress",
+                ability: "Parasit yang tumbuh pada tubuh korban, memakan darah dan berkembang menjadi bentuk yang lebih kuat."
+            },
+            {
+                name: "The Emperor",
+                image: "https://i.imgur.com/HjP7sYZ.png",
+                stand: "Emperor",
+                ability: "Pistol yang diwujudkan sebagai Stand, bisa mengendalikan peluru dengan kehendak pengguna."
+            },
+            {
+                name: "The Hierophant",
+                image: "https://i.imgur.com/u6Ca4hf.png",
+                stand: "Hierophant Green",
+                ability: "Memanipulasi tali emerald yang bisa menembus benda, membentuk perangkap, atau menyerang dari jarak jauh."
+            },
+            {
+                name: "The Lovers",
+                image: "https://i.imgur.com/NB0xQz9.png",
+                stand: "The Lovers",
+                ability: "Parasit kecil yang masuk ke otak korban, memungkinkan pengguna merasakan dan memanipulasi indera korban."
+            },
+            {
+                name: "The Chariot",
+                image: "https://i.imgur.com/uHWmxZe.png",
+                stand: "Silver Chariot",
+                ability: "Stand dengan pedang yang sangat cepat, bisa melepas baju zirahnya untuk meningkatkan kecepatan."
+            },
+            {
+                name: "Justice",
+                image: "https://i.imgur.com/EX4gW4n.png",
+                stand: "Justice",
+                ability: "Memanipulasi kabut dan tubuh korban yang terluka, bisa mengontrol mayat dan luka sebagai portal."
+            },
+            {
+                name: "The Hermit",
+                image: "https://i.imgur.com/P3t2O61.png",
+                stand: "Hermit Purple",
+                ability: "Tali berduri yang bisa digunakan untuk meramal, memukul, dan menciptakan gambar spiritual."
+            },
+            {
+                name: "Wheel of Fortune",
+                image: "https://i.imgur.com/0oxyTOe.png",
+                stand: "Wheel of Fortune",
+                ability: "Mengubah mobil menjadi Stand yang bisa meregenerasi dan memodifikasi dirinya sendiri."
+            },
+            {
+                name: "Strength",
+                image: "https://i.imgur.com/9vXtOwY.png",
+                stand: "Strength",
+                ability: "Mengubah kapal kargo menjadi gorila mekanik raksasa yang dikendalikan oleh Stand."
+            },
+            {
+                name: "The Hanged Man",
+                image: "https://i.imgur.com/JCQ807m.png",
+                stand: "Hanged Man",
+                ability: "Bergerak melalui refleksi cahaya, menyerang korban dari dalam cermin atau permukaan reflektif."
+            },
+            {
+                name: "Death",
+                image: "https://i.imgur.com/aKIQJHS.png",
+                stand: "Death Thirteen",
+                ability: "Mengendalikan dunia mimpi korban, membuat pengguna hampir tak terkalahkan dalam mimpi."
+            },
+            {
+                name: "Temperance",
+                image: "https://i.imgur.com/8wWWL5J.png",
+                stand: "Temperance",
+                ability: "Memanipulasi dan mengubah bentuk tubuh pengguna, bisa meregangkan dan memodifikasi bagian tubuh."
+            },
+            {
+                name: "The Devil",
+                image: "https://i.imgur.com/YyUghul.png",
+                stand: "Ebony Devil",
+                ability: "Menghidupkan benda mati untuk balas dendam, menjadi lebih kuat saat pengguna terluka."
+            },
+            {
+                name: "The Tower",
+                image: "https://i.imgur.com/uy6yRVp.png",
+                stand: "Tower of Gray",
+                ability: "Kumbang kecepatan tinggi yang bisa menembus benda dengan mulut pengeborannya."
+            },
+            {
+                name: "The Star",
+                image: "https://i.imgur.com/nFccZZ8.png",
+                stand: "Star Platinum",
+                ability: "Kekuatan, kecepatan, dan presisi yang luar biasa, dengan kemampuan menghentikan waktu di kemudian hari."
+            },
+            {
+                name: "The Moon",
+                image: "https://i.imgur.com/qQNwZ6R.png",
+                stand: "The Moon",
+                ability: "Menciptakan lingkungan gravitasi rendah dan ilusi bawah laut yang mempengaruhi persepsi korban."
+            },
+            {
+                name: "The Sun",
+                image: "https://i.imgur.com/jjx5apV.png",
+                stand: "The Sun",
+                ability: "Menciptakan bola matahari kecil yang memancarkan panas dan cahaya intens, membakar korban."
+            },
+            {
+                name: "Judgement",
+                image: "https://i.imgur.com/RZCMXM9.png",
+                stand: "Judgement",
+                ability: "Mengabulkan permintaan korban dengan mengubah benda mati menjadi orang yang dikenali korban."
+            },
+            {
+                name: "The World",
+                image: "https://i.imgur.com/vC6gi5y.png",
+                stand: "The World",
+                ability: "Menghentikan waktu selama beberapa detik, membuat hanya pengguna yang bisa bergerak."
+            }
+        ];
+
+        const cardDisplay = document.getElementById('cardDisplay');
+        const cardContent = document.getElementById('cardContent');
+        const cardImage = document.getElementById('cardImage');
+        const cardName = document.getElementById('cardName');
+        const standName = document.getElementById('standName');
+        const ability = document.getElementById('ability');
+        const drawButton = document.getElementById('drawButton');
+
+        drawButton.addEventListener('click', () => {
+            // Animasi mengocok kartu
+            cardDisplay.style.transform = 'rotateY(180deg)';
+            
+            setTimeout(() => {
+                // Mengambil kartu acak
+                const randomIndex = Math.floor(Math.random() * tarotCards.length);
+                const selectedCard = tarotCards[randomIndex];
+                
+                // Memperbarui tampilan
+                cardImage.src = selectedCard.image;
+                cardImage.alt = selectedCard.name;
+                cardName.textContent = selectedCard.name;
+                standName.textContent = selectedCard.stand;
+                ability.textContent = selectedCard.ability;
+                
+                // Mengungkap kartu
+                cardDisplay.classList.add('revealed');
+                
+                // Mengembalikan animasi
+                cardDisplay.style.transform = 'rotateY(0deg)';
+            }, 500);
+        });
+
+        // Reset kartu saat halaman dimuat
+        window.addEventListener('load', () => {
+            cardDisplay.classList.remove('revealed');
+        });
+    </script>
+</body>
+</html>
